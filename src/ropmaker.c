@@ -31,14 +31,15 @@ int match(const char *gadget, const char *instruction)
   if (strlen(gadget) < n)
     return FALSE;
 
-  return match2((unsigned char *)gadget, (unsigned char *)instruction, n);
+  return match2((unsigned char *)gadget, (unsigned char *)instruction, n, 1);
 }
 /*
 ** same as match but only check first n bytes
 ** We use this because s1 (data) might have null bytes in it that don't
 ** indicate the end of the string
+** wc is 0 if we don't accept wildcards
 */
-int match2(const unsigned char *s1, const unsigned char *s2, size_t n)
+int match2(const unsigned char *s1, const unsigned char *s2, size_t n, int wc)
 {
   size_t i;
   unsigned char c;
@@ -46,7 +47,7 @@ int match2(const unsigned char *s1, const unsigned char *s2, size_t n)
   for (i = 0; i < n; i++)
     {
       c = s2[i];
-      if (c != '?' && c != '#' && c != s1[i])
+      if ( ((!wc) || (c != '?' && c != '#')) && (c != s1[i]))
         return FALSE;
     }
 

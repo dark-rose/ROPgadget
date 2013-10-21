@@ -59,7 +59,8 @@ class genInstr():
                             'xchg OP0, OP1',
                             'mov OP0, OP1',
                             'mov (OP0), OP1',
-                            'mov OP0, (OP1)'
+                            'mov OP0, (OP1)',
+                            'jmp OP0'
                          ]
 
         self._IntelX86GadgetsTable = []
@@ -136,6 +137,7 @@ class genInstr():
         for IntelIns in self._IntelIns:
             ins += self._GenIns(IntelIns)
         self._compileIns(ins, self._IntelInsCompiled)
+        
 
         # IntelBr
         ins = []
@@ -179,7 +181,15 @@ class genInstr():
                     combi += [[pop1[0]+pop2[0]+pop3[0]+ret[0][0],
                                pop1[1]+' ; '+pop2[1]+' ; '+pop3[1]+' ; '+ret[0][1],
                                pop1[2]+' ; '+pop2[2]+' ; '+pop3[2]+' ; '+ret[0][2]]]
+                combi += [[pop1[0]+pop2[0]+ret[0][0],
+                           pop1[1]+' ; '+pop2[1]+' ; '+ret[0][1],
+                           pop1[2]+' ; '+pop2[2]+' ; '+ret[0][2]]]
         self._IntelX86GadgetsTable += combi
+
+        # Generate jmp gadgets
+        jmp = self._getAllIns('jmp')
+        for j in jmp:
+            self._IntelX86GadgetsTable += [[j[0],j[1],j[2]]]
 
         # Gen gadget with branch instruction
         for IntelBr in self._IntelBrCompiled:
@@ -201,9 +211,11 @@ class genInstr():
     def displayGadgetsTable(self):
         print('/* X86 Gadgets Table - ROPgadget generator */\n\n#include "ropgadget.h"\n')
         print('t_asm tab_x86%s[] = \n{' %(self._arch))
-
+        add = []  # Avoid equal gadgets
         for gadgets in self._IntelX86GadgetsTable:
-            print('\t{0, 0, "%s", "%s", "%s", %d},' %(gadgets[2], gadgets[1], gadgets[0], self._getSizeOpcode(gadgets[0])))
+            if gadgets[0] not in add:
+                print('\t{0, 0, "%s", "%s", "%s", %d},' %(gadgets[2], gadgets[1], gadgets[0], self._getSizeOpcode(gadgets[0])))
+                add.append(gadgets[0])
 
         print('\t{0, 0, NULL, NULL, NULL, 0}')
         print('};')

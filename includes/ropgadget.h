@@ -140,7 +140,7 @@ void 			free_list_inst(t_list_inst *);
 /* ropmaker */
 t_asm  	                *search_instruction(t_asm *, char *);
 int                     match(const char *, const char *);
-int                     match2(const unsigned char *, const unsigned char *, size_t);
+int                     match2(const unsigned char *, const unsigned char *,size_t, int);
 
 /* pop info */
 #define how_many_pop(g) how_many_pop_x(g, NULL, TOTAL)

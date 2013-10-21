@@ -28,7 +28,7 @@ static void check_gadget(unsigned char *data, Address v_addr, t_asm *asm,
   char *syntax;
 
   /* if this doesn't match the current data pointer return */
-  if(!match2(data, (unsigned char *)asm->value, asm->size))
+  if(!match2(data, (unsigned char *)asm->value, asm->size, 0))
     return;
 
   syntax = DISPLAY_SYNTAX(asm);
@@ -180,7 +180,7 @@ static void find_all_gadgets(t_binary *bin, t_asm *gadgets, unsigned int *NbGadF
         /* string mode */
         else if (stringmode.flag)
           {
-            if(match2(data, (unsigned char *)stringmode.string, stringlen))
+            if(match2(data, (unsigned char *)stringmode.string, stringlen, 1))
               {
                 real_string = real_string_stringmode(stringmode.string, data);
                 uprintf("%s" ADDR_FORMAT "%s: \"%s", RED, ADDR_WIDTH, v_addr, ENDC, GREEN);
