@@ -60,7 +60,8 @@ class genInstr():
                             'mov OP0, OP1',
                             'mov (OP0), OP1',
                             'mov OP0, (OP1)',
-                            'jmp OP0'
+                            'jmp OP0',
+                            'jmp (OP0)'
                          ]
 
         self._IntelX86GadgetsTable = []
