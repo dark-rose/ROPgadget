@@ -61,7 +61,9 @@ class genInstr():
                             'mov (OP0), OP1',
                             'mov OP0, (OP1)',
                             'jmp OP0',
-                            'jmp (OP0)'
+                            'jmp (OP0)',
+                            'call OP0',
+                            'call (OP0)'
                          ]
 
         self._IntelX86GadgetsTable = []
@@ -188,9 +190,10 @@ class genInstr():
         self._IntelX86GadgetsTable += combi
 
         # Generate jmp gadgets
-        jmp = self._getAllIns('jmp')
-        for j in jmp:
-            self._IntelX86GadgetsTable += [[j[0],j[1],j[2]]]
+        self._IntelX86GadgetsTable += self._getAllIns('jmp')
+
+        # Generate call gadgets
+        self._IntelX86GadgetsTable += self._getAllIns('call')
 
         # Gen gadget with branch instruction
         for IntelBr in self._IntelBrCompiled:
