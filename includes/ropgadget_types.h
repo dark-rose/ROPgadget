@@ -106,6 +106,13 @@ typedef struct s_stringmode
   int  flag;
 } t_stringmode;
 
+// -export 
+typedef struct s_file {
+ char* name;
+ int file;
+ int flag;
+} t_file;
+
 /* -syntax */
 typedef enum e_syntaxcode
 {

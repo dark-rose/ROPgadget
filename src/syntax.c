@@ -50,7 +50,8 @@ void syntax(char *str)
   hprintf("         -h                        Display this help and exit\n");
   hprintf("         -color                    Force color output\n");
   hprintf("         -nocolor                  Disable color output\n");
-  hprintf("         -nopayload                Disable payload generation\n\n");
+  hprintf("         -nopayload                Disable payload generation\n");
+  hprintf("         -export    <filename>     Export gadgets to file\n\n");
 
   hprintf("%sArguments%s: \n", RED, ENDC);
   hprintf("    The first non-flag argument is the file to perform operations on.\n");

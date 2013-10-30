@@ -36,6 +36,7 @@ t_limitmode             limitmode;      /*  -limit                        */
 t_mapmode               mapmode;        /*  -map                          */
 e_syntaxcode            syntaxcode;     /*  -pysyn -csyn -phpsyn -perlsyn */
 e_syntax                syntaxins;      /*  -intel -att                   */
+t_file                  export_mode;     // -export
 char                    **target_argv;  /*  non-default target            */
 
 /* color variables */

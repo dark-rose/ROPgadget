@@ -45,6 +45,7 @@ static void set_defaults(void)
   importsc_mode.flag      = 0;
   syntaxins               = INTEL; /* Display with INTEL syntax by default */
   target_argv             = NULL;
+  export_mode.flag = 0;
 
   BLUE                    = _BLUE;
   GREEN                   = _GREEN;
@@ -66,6 +67,7 @@ static struct option long_options[] =
 
   {"bind", required_argument, &bind_mode.flag, 1},
   {"importsc", required_argument, &importsc_mode.flag, 1},
+  {"export", required_argument, &importsc_mode.flag, 1},
 
   {"filter", required_argument, &filter_mode.flag, 1},
   {"only", required_argument, &only_mode.flag, 1},
@@ -151,7 +153,14 @@ int main(int argc, char **argv)
         return 1;
       }
       make_opcode(optarg, &importsc_mode);
-    } else if (is_option("limit")) {
+    } else if(is_option("export")) {
+	   if (optarg == NULL || strlen(optarg) == 0) {
+        eprintf("%sSyntax%s: -export <filename>\n", RED, ENDC);
+        return 1;
+		}
+		export_mode.file = xopen(optarg, O_RDONLY, 0644);
+		export_mode.name = optarg;
+	 } else if (is_option("limit")) {
       int tmp;
       if (optarg == NULL || strlen(optarg) == 0) {
         eprintf("%sSyntax%s: -limit <value>\n", RED, ENDC);
